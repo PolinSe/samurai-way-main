@@ -1,0 +1,23 @@
+.sidebar {
+
+}
+
+.friends {
+    display: flex;
+    gap: 10px;
+}
+
+.friend {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.friend img {
+    width: 50px;
+}
+
+.friend span {
+    text-align: center;
+}
