@@ -1,4 +1,8 @@
 .app-wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+
+
     display: grid;
     grid-template-areas:
     "h h "
@@ -6,11 +10,14 @@
     grid-template-rows: 100px 1fr;
     grid-template-columns: 200px 5fr;
     grid-gap: 10px;
-    width: 100vw;
+    /*width: 100vh;*/
 }
 
 .app-wrapper-content {
     grid-area: c;
-    background-color: #00d9ff;
+    background-color: #A2ABAC;
+    border-radius: 10px;
+    /*box-shadow: 0 0px 15px 0 rgba(0,0,0,0.7);*/
+
 }
 

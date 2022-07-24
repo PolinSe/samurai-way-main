@@ -1,9 +1,12 @@
 
 .nav {
     grid-area: n;
-    background-color: #68b3a4;
+    /*background-color: #487e75;*/
+    background-color: #6995B1;
     padding: 15px;
-    color: white
+    color: white;
+    border-radius: 10px;
+    /*box-shadow: 0 0px 10px 0 rgba(105,149,177,0.9);*/
 }
 
 .item a {
@@ -13,4 +16,41 @@
 
 .item a.active {
     color: #005b31;
+}
+
+.c1 {
+    padding: 5px;
+    border: 1px solid #F4F4F5;
+    background-color: #F4F4F5;
+    color: black;
+}
+.c2 {
+    padding: 5px;
+    border: 1px solid #6B6C6C;
+    background-color: #6B6C6C;
+}
+.c3 {
+    padding: 5px;
+    border: 1px solid #A2ABAC;
+    background-color: #A2ABAC;
+}
+.c4 {
+    padding: 5px;
+    border: 1px solid #172027;
+    background-color: #172027;
+}
+.c5 {
+    padding: 5px;
+    border: 1px solid #31414B;
+    background-color: #31414B;
+}
+.c6 {
+    padding: 5px;
+    border: 1px solid #6995B1;
+    background-color: #6995B1;
+}
+.c7 {
+    padding: 5px;
+    border: 1px solid #2E6BB9;
+    background-color: #2E6BB9;
 }
