@@ -1,9 +1,3 @@
-let rerenderEntireTree = () => console.log('State was changed')
-
-export const subscribe = (callback: () => void) => {
-    rerenderEntireTree = callback
-}
-
 export type MessageType = {
     id: number
     message: string
@@ -41,64 +35,88 @@ export type StateType = {
     sidebar: SidebarType
 }
 
-export let state: StateType = {
-    profilePage: {
-        posts: [
-            {id: 1, message: 'Hi! How are you?', likes: 15},
-            {id: 2, message: 'It\'s my first post!', likes: 20},
-            {id: 3, message: 'Blabla', likes: 20},
-            {id: 4, message: 'Dada', likes: 20},
-        ],
-        newPostElement: ''
+export type StoreType = {
+    _state: StateType
+    addPost: (postText: string) => void
+    changeNewPostText: (postText: string) => void
+    addMessage: (messageText: string) => void
+    changeNewMessageText: (messageText: string) => void
+    _callSubscriber: () => void
+    subscribe: (callback: () => void) => void
+    getState: () => StateType
+}
+
+export const store: StoreType = {
+    _state: {
+        profilePage: {
+            posts: [
+                {id: 1, message: 'Hi! How are you?', likes: 15},
+                {id: 2, message: 'It\'s my first post!', likes: 20},
+                {id: 3, message: 'Blabla', likes: 20},
+                {id: 4, message: 'Dada', likes: 20},
+            ],
+            newPostElement: ''
+        },
+        dialogsPage: {
+            dialogs: [
+                {id: 1, name: 'Dmitry', image: 'avatar3.png'},
+                {id: 2, name: 'Andrey', image: 'avatar3.png'},
+                {id: 3, name: 'Sveta', image: 'avatar3.png'},
+                {id: 4, name: 'Sasha', image: 'avatar3.png'},
+                {id: 5, name: 'Valera', image: 'avatar3.png'},
+                {id: 6, name: 'Viktor', image: 'avatar3.png'},
+            ],
+            messages: [
+                {id: 1, message: 'Hello...'},
+                {id: 2, message: 'Hi...'},
+                {id: 3, message: 'How are you?...'},
+                {id: 4, message: 'Yo'},
+                {id: 5, message: 'Yoyo'},
+            ],
+            newMessageElement: ''
+        },
+        sidebar: {
+            friends: [
+                {id: 1, name: 'Andrey', image: 'avatar3.png'},
+                {id: 2, name: 'Sasha', image: 'avatar3.png'},
+                {id: 3, name: 'Sveta', image: 'avatar3.png'},
+            ],
+        }
     },
-    dialogsPage: {
-        dialogs: [
-            {id: 1, name: 'Dmitry', image: 'avatar3.png'},
-            {id: 2, name: 'Andrey', image: 'avatar3.png'},
-            {id: 3, name: 'Sveta', image: 'avatar3.png'},
-            {id: 4, name: 'Sasha', image: 'avatar3.png'},
-            {id: 5, name: 'Valera', image: 'avatar3.png'},
-            {id: 6, name: 'Viktor', image: 'avatar3.png'},
-        ],
-        messages: [
-            {id: 1, message: 'Hello...'},
-            {id: 2, message: 'Hi...'},
-            {id: 3, message: 'How are you?...'},
-            {id: 4, message: 'Yo'},
-            {id: 5, message: 'Yoyo'},
-        ],
-        newMessageElement: ''
+
+    addPost(postText: string) {
+        const newPost: MessageType = {id: 5, message: postText, likes: 0}
+        this._state.profilePage.posts.push(newPost)
+        this._callSubscriber()
+        this._state.profilePage.newPostElement = ''
     },
-    sidebar: {
-        friends: [
-            {id: 1, name: 'Andrey', image: 'avatar3.png'},
-            {id: 2, name: 'Sasha', image: 'avatar3.png'},
-            {id: 3, name: 'Sveta', image: 'avatar3.png'},
-        ],
+
+    changeNewPostText(postText: string) {
+        this._state.profilePage.newPostElement = postText
+        this._callSubscriber()
+    },
+
+    addMessage(messageText: string) {
+        const newMessage: MessagesType = {id: 6, message: messageText}
+        this._state.dialogsPage.messages.push(newMessage)
+        this._callSubscriber()
+        this._state.dialogsPage.newMessageElement = ''
+    },
+
+    changeNewMessageText(messageText: string) {
+        this._state.dialogsPage.newMessageElement = messageText
+        this._callSubscriber()
+    },
+
+    _callSubscriber() {
+        console.log('State was changed')
+    },
+
+    subscribe(observer) {
+        this._callSubscriber = observer
+    },
+
+    getState() {
+        return this._state
     }
 }
-
-export const addPost = (postText: string) => {
-    const newPost: MessageType = {id: 5, message: postText, likes: 0}
-    state.profilePage.posts.push(newPost)
-    rerenderEntireTree()
-    state.profilePage.newPostElement = ''
-}
-export const changeNewPostText = (postText: string) => {
-    state.profilePage.newPostElement = postText
-    rerenderEntireTree()
-}
-
-export const addMessage = (messageText: string) => {
-    const newMessage: MessagesType = {id: 6, message: messageText}
-    state.dialogsPage.messages.push(newMessage)
-    rerenderEntireTree()
-    state.dialogsPage.newMessageElement = ''
-}
-export const changeNewMessageText = (messageText: string) => {
-    state.dialogsPage.newMessageElement = messageText
-    rerenderEntireTree()
-}
-
-
-
