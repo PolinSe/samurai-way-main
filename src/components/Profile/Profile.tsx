@@ -14,7 +14,10 @@ export const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts profilePage={props.profilePage} addPost={props.addPost} changeNewPostText={props.changeNewPostText}/>
+            <MyPosts posts={props.profilePage.posts}
+                     newPostElement={props.profilePage.newPostElement}
+                     addPost={props.addPost}
+                     changeNewPostText={props.changeNewPostText}/>
         </div>
     )
 }
