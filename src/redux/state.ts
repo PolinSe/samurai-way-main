@@ -1,4 +1,8 @@
-import {rerenderEntireTree} from '../render';
+let rerenderEntireTree = () => console.log('State was changed')
+
+export const subscribe = (callback: () => void) => {
+    rerenderEntireTree = callback
+}
 
 export type MessageType = {
     id: number
@@ -77,22 +81,24 @@ export let state: StateType = {
 export const addPost = (postText: string) => {
     const newPost: MessageType = {id: 5, message: postText, likes: 0}
     state.profilePage.posts.push(newPost)
-    rerenderEntireTree(state)
+    rerenderEntireTree()
     state.profilePage.newPostElement = ''
 }
 export const changeNewPostText = (postText: string) => {
     state.profilePage.newPostElement = postText
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 export const addMessage = (messageText: string) => {
     const newMessage: MessagesType = {id: 6, message: messageText}
     state.dialogsPage.messages.push(newMessage)
-    rerenderEntireTree(state)
+    rerenderEntireTree()
     state.dialogsPage.newMessageElement = ''
 }
 export const changeNewMessageText = (messageText: string) => {
     state.dialogsPage.newMessageElement = messageText
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
+
+
 
