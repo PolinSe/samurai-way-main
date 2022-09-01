@@ -1,3 +1,6 @@
+import {ProfileActionTypes, profileReducer} from './profileReducer';
+import {DialogsActionTypes, dialogsReducer} from './dialogsReducer';
+
 export type MessageType = {
     id: number
     message: string
@@ -35,15 +38,14 @@ export type StateType = {
     sidebar: SidebarType
 }
 
+export type ActionTypes = ProfileActionTypes | DialogsActionTypes
+
 export type StoreType = {
     _state: StateType
-    addPost: (postText: string) => void
-    changeNewPostText: (postText: string) => void
-    addMessage: (messageText: string) => void
-    changeNewMessageText: (messageText: string) => void
     _callSubscriber: () => void
     subscribe: (callback: () => void) => void
     getState: () => StateType
+    dispatch: (action: ActionTypes) => void
 }
 
 export const store: StoreType = {
@@ -83,40 +85,22 @@ export const store: StoreType = {
             ],
         }
     },
-
-    addPost(postText: string) {
-        const newPost: MessageType = {id: 5, message: postText, likes: 0}
-        this._state.profilePage.posts.push(newPost)
-        this._callSubscriber()
-        this._state.profilePage.newPostElement = ''
-    },
-
-    changeNewPostText(postText: string) {
-        this._state.profilePage.newPostElement = postText
-        this._callSubscriber()
-    },
-
-    addMessage(messageText: string) {
-        const newMessage: MessagesType = {id: 6, message: messageText}
-        this._state.dialogsPage.messages.push(newMessage)
-        this._callSubscriber()
-        this._state.dialogsPage.newMessageElement = ''
-    },
-
-    changeNewMessageText(messageText: string) {
-        this._state.dialogsPage.newMessageElement = messageText
-        this._callSubscriber()
-    },
-
     _callSubscriber() {
         console.log('State was changed')
     },
 
-    subscribe(observer) {
-        this._callSubscriber = observer
+    subscribe(callback: any) {
+        this._callSubscriber = callback
     },
 
     getState() {
         return this._state
+    },
+
+    dispatch(action) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+
+        this._callSubscriber()
     }
 }

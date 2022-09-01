@@ -2,25 +2,28 @@ import React, {ChangeEvent} from "react";
 import {DialogItem} from "./DialogItem/DialogItem";
 import s from './Dialogs.module.css'
 import {Message} from './Message/Message';
-import {DialogsPageType} from '../../redux/state';
+import {StoreType} from '../../redux/state';
+import {addMessageAC, changeNewMessageTextAC} from '../../redux/dialogsReducer';
 
 
 type DialogsPropsType = {
-    dialogsPage: DialogsPageType
-    addMessage: (messageText: string) => void
-    changeNewMessageText: (messageText: string) => void
+    store: StoreType
 }
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
-    let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name} id={d.id} image={d.image}/>)
-    let messagesElements = props.dialogsPage.messages.map(m => <Message message={m.message} id={m.id}/>)
+    let state = props.store.getState().dialogsPage
+
+    let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} id={d.id} image={d.image}/>)
+    let messagesElements = state.messages.map(m => <Message message={m.message} id={m.id}/>)
 
 
     const addMessage = () => {
-        props.addMessage(props.dialogsPage.newMessageElement)
+        props.store.dispatch(addMessageAC())
+
     }
-    const addMessageText = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        props.changeNewMessageText(e.currentTarget.value)
+    const addMessageText = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        debugger
+        props.store.dispatch(changeNewMessageTextAC(e.currentTarget.value))
     }
 
     return (
@@ -31,11 +34,11 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
             <div className={s.messagesWrapper}>
                 <div className={s.messages}>
                     {messagesElements}
-                    <textarea value={props.dialogsPage.newMessageElement} onChange={addMessageText}></textarea>
+                    <textarea value={state.newMessageElement} onChange={addMessageText}
+                              placeholder={'Enter your message'}></textarea>
                     <button onClick={addMessage}>add message</button>
                 </div>
             </div>
-
         </div>
     )
 }

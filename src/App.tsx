@@ -13,23 +13,22 @@ type AppType = {
 const App: React.FC<AppType> = (props) => {
 
     const state = props.store.getState()
+    debugger
     return (
         <div className='app-wrapper'>
             <Header/>
             <Navbar friends={state.sidebar.friends}/>
             <div className='app-wrapper-content'>
                 <Route path={'/dialogs'}
-                       render={() => <Dialogs
-                           dialogsPage={state.dialogsPage}
-                           addMessage={props.store.addMessage.bind(props.store)}
-                           changeNewMessageText={props.store.changeNewMessageText.bind(props.store)}
+                       render={() => <Dialogs    // передали весь стор
+                           store={props.store}
                        />}
                 />
                 <Route path={'/profile'}
-                       render={() => <Profile
-                           profilePage={state.profilePage}
-                           addPost={props.store.addPost.bind(props.store)}
-                           changeNewPostText={props.store.changeNewPostText.bind(props.store)}
+                       render={() => <Profile    // передали только нужную часть стора - это предпочтительнее
+                           posts={state.profilePage.posts}
+                           newPostElement={state.profilePage.newPostElement}
+                           dispatch={props.store.dispatch.bind(props.store)} // важно не забыть bind, если передаем метод объекта вне объекта
                        />}
                 />
                 {/*<Route path={'/news'} render={() => <News/>}/>*/}
